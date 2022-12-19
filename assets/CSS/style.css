@@ -1,0 +1,76 @@
+*{
+    margin: 0px;
+}
+
+/* default styling for header */
+header{
+    background: rgb(24,237,238);
+    background: linear-gradient(90deg, rgba(24,237,238,1) 0%, rgba(0,99,255,1) 100%);  
+    height: 5vw;  
+}
+
+/* styling for h1 in header */
+header h1{
+    text-align: center;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 3vw;
+}
+
+/* styling for main */
+main{
+    display: flex;
+    margin-left: 3px;
+}
+
+/* styling for search & history */ 
+.search-history{
+    display: flex;
+    flex-direction: column;
+}
+
+/* default styling for buttons */
+button{
+    margin-top: 7px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+/* styling for search button */ 
+.btn-search{
+    background-color: rgb(100, 165, 229);
+    color: white;
+    border: none;
+    border-radius: 2px;
+}
+
+/* styling for search bar */ 
+input{
+    margin-top: 7px;
+}
+
+.search{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    border-bottom: 1px solid rgb(130, 130, 130);
+    padding-bottom: 7px;
+}
+
+.current-location{
+    margin-left: 10px;
+    margin-right: 10%;
+    width:100%;
+}
+
+.current-weather{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: .5px solid black;
+    padding: 3px;
+    
+}
