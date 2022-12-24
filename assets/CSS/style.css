@@ -27,11 +27,14 @@ main{
 .search-history{
     display: flex;
     flex-direction: column;
+    width: 25vw;
+    margin-right: 10px;
 }
 
 /* default styling for buttons */
 button{
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 1.5vw;
 }
 
 button:hover{
@@ -48,13 +51,14 @@ button:hover{
 
 /* styling for search bar */ 
 input{
+    font-size: 1.5vw;
     margin-top: 7px;
 }
 
 .search{
     display: flex;
     flex-direction: column;
-    font-size: 14px;
+    font-size: 1.5vw;
     border-bottom: 1px solid rgb(130, 130, 130);
     padding-bottom: 7px;
 }
@@ -68,23 +72,29 @@ input{
 .current-weather{
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 1vw;
+    margin-bottom: 15px;
     border: .5px solid black;
     padding: 3px;    
     border-radius: 5px;
+    width: 75vw;
+    height: 12vw;
+}
+
+.current-weather h3{
+    font-size: 2vw;
 }
 
 
 .current-wind, 
 .current-humidity{
-    margin-top: 10px;
+    margin-top: .5vw;
 }
 
 .lbl-forecast{
     margin-bottom: 5px;
+    font-size: 2vw;
 }
-
 
 .history{
     display: flex;
@@ -105,8 +115,16 @@ input{
 }
 
 .infographic img{
-    height: 35px;
-    width: 35px;
+    height: 70px;
+    width: 70px;
+}
+
+.infographic h5{
+    font-size: 1.5vw;
+}
+
+.infographic h6 {
+    font-size: 1vw;
 }
 
 .card{
@@ -115,7 +133,7 @@ input{
     text-align: left;
     background-color: rgb(32, 32, 67);
     padding: 10px;
-    width: 10vw;
+    width: 12vw;
     border-radius: 5px;
     color: white;
 }
@@ -124,10 +142,13 @@ input{
     margin-top: 1.5vw;
 }
 
+
 .city-name{
+    font-size: 2.5vw;
     display: inline-block;
 }
+
 .city-name img{
-    height: 35px;
+    height: 70px;
     vertical-align: middle;
 }
