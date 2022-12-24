@@ -31,7 +31,7 @@ main{
 
 /* default styling for buttons */
 button{
-    margin-top: 7px;
+    margin-top: 10px;
 }
 
 button:hover{
@@ -75,6 +75,17 @@ input{
     border-radius: 5px;
 }
 
+
+.current-wind, 
+.current-humidity{
+    margin-top: 10px;
+}
+
+.lbl-forecast{
+    margin-bottom: 5px;
+}
+
+
 .history{
     display: flex;
     flex-direction: column;
@@ -93,6 +104,11 @@ input{
     justify-content: space-between;
 }
 
+.infographic img{
+    height: 35px;
+    width: 35px;
+}
+
 .card{
     display: flex;
     flex-direction: column;
@@ -106,4 +122,12 @@ input{
 
 .card h6{
     margin-top: 1.5vw;
+}
+
+.city-name{
+    display: inline-block;
+}
+.city-name img{
+    height: 35px;
+    vertical-align: middle;
 }
