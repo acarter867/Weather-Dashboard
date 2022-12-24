@@ -16,14 +16,17 @@ $(function(){
 });
 
 function displaySearch(){
+    //get and format todays date
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth()+1).padStart(2, '0');
     let yyyy = String(today.getFullYear());
     today = '(' + mm + '/' + dd + '/' + yyyy + ')';
+
+
     let city = searchCity();
     
-    let queryCity = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
+    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
     
     //call api for coordinates using city name
     fetch(queryCity)
@@ -33,7 +36,7 @@ function displaySearch(){
     })
     .then(data => {
         //pass in coordinates for city and pull weather data
-        let queryCoord = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + data[0].lat + '&lon=' + data[0].lon + '&units=imperial&appid=' + APIKey;
+        let queryCoord = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + data[0].lat + '&lon=' + data[0].lon + '&units=imperial&appid=' + APIKey;
         fetch(queryCoord)
         .then(result => {
             console.log("Status: ", result.status)
@@ -56,7 +59,7 @@ function displaySearch(){
 //display weather data of current city
 function updateCurrent(data, date){
     let weatherIcon = $('<img></img>');
-    weatherIcon.attr('src', 'http://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png')
+    weatherIcon.attr('src', 'https://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png')
     $('.city-name').text(data.city.name + " " + date);
     $('.city-name').append(weatherIcon)
 
@@ -66,7 +69,7 @@ function updateCurrent(data, date){
 }
 
 //add current search to history and push to local storage. 
-//would likely be faster to push all previously searched weather data to local storage.
+//would likely be faster to push all previously searched weather data to local storage. TODO maybe?
 function addToHistory(cName){
     let entries = [];
     entries = localStorage.getItem('history');
@@ -124,7 +127,7 @@ function dailyForecast(obj){
     day.append(dailyDate);
 
     let dailyIcon = $('<img></img>');
-    dailyIcon.attr('src', 'http://openweathermap.org/img/wn/' + obj.icon + '@2x.png')
+    dailyIcon.attr('src', 'https://openweathermap.org/img/wn/' + obj.icon + '@2x.png')
     day.append(dailyIcon);
 
     let dailyTemp = $('<h6></h6>').text(obj.temp);
