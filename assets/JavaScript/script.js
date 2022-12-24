@@ -55,7 +55,11 @@ function displaySearch(){
 
 //display weather data of current city
 function updateCurrent(data, date){
+    let weatherIcon = $('<img></img>');
+    weatherIcon.attr('src', 'http://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png')
     $('.city-name').text(data.city.name + " " + date);
+    $('.city-name').append(weatherIcon)
+
     $('.current-temp').text("Temp: " + data.list[0].main.temp + " °F");
     $('.current-wind').text("Wind: " + data.list[0].wind.speed + " MPH");
     $('.current-humidity').text("Humidity: " + data.list[0].main.humidity + "%");
@@ -119,7 +123,8 @@ function dailyForecast(obj){
     let dailyDate = $('<h5></h5>').text(obj.date);
     day.append(dailyDate);
 
-    let dailyIcon = $('<h6></h6>').text(obj.icon);
+    let dailyIcon = $('<img></img>');
+    dailyIcon.attr('src', 'http://openweathermap.org/img/wn/' + obj.icon + '@2x.png')
     day.append(dailyIcon);
 
     let dailyTemp = $('<h6></h6>').text(obj.temp);
@@ -152,26 +157,43 @@ function getDays(data){
         let day = dayTime[0];
         console.log(day)
         if(day > today && !futureDates.includes(day)){
-            let formatDates = day.split('-');
             futureDates.push(day);
         }
     }
     console.log(futureDates.length)
 
     for(let i = 0; i < futureDates.length; i++){
+        let highestTemp = findHighest(data, futureDates[i]);
+        console.log(highestTemp);
         reformatFutureDate = futureDates[i].split("-");
         reformattedDate = reformatFutureDate[1] + "/" + reformatFutureDate[2] + "/" + reformatFutureDate[0];
         const dayOBJ = {
             date: reformattedDate,
-            icon: "123",
-            temp: "Temp: ",
-            wind: "Wind: ",
-            humidity: "Humidity: "
+            icon: highestTemp.weather[0].icon,
+            temp: "Temp: " + highestTemp.main.temp + ' °F',
+            wind: "Wind: " + highestTemp.wind.speed,
+            humidity: "Humidity: " + highestTemp.main.humidity + "%"
         }
         dailyForecast(dayOBJ)
     }
 
     console.log(futureDates)
+}
+
+//function to find highest temp projection for a given day to display on 5 day forecast
+function findHighest(data, targetDate){
+    let currentHigh = Number.MIN_VALUE;
+    let currentObj;
+    for(let i = 0; i < data.list.length; i++){
+        let currentData = data.list[i];
+        if(currentData.dt_txt.includes(targetDate)){
+            if(currentData.main.temp > currentHigh){
+                currentHigh = currentData.main.temp;
+                currentObj = currentData;
+            }
+        }
+    }
+    return currentObj;
 }
 
 //pull temp from input field and send coordinates to api call
