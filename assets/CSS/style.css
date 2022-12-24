@@ -71,11 +71,39 @@ input{
     margin-top: 10px;
     margin-bottom: 10px;
     border: .5px solid black;
-    padding: 3px;
-    
+    padding: 3px;    
+    border-radius: 5px;
 }
 
 .history{
     display: flex;
     flex-direction: column;
+}
+
+.history button{
+    background-color: rgb(163, 163, 163);
+    border: none;
+    border-radius: 2px;
+    padding: 3px;
+}
+
+.infographic{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: rgb(32, 32, 67);
+    padding: 10px;
+    width: 10vw;
+    border-radius: 5px;
+    color: white;
+}
+
+.card h6{
+    margin-top: 1.5vw;
 }
