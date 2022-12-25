@@ -85,7 +85,6 @@ input{
     font-size: 2vw;
 }
 
-
 .current-wind, 
 .current-humidity{
     margin-top: .5vw;
@@ -141,7 +140,6 @@ input{
 .card h6{
     margin-top: 1.5vw;
 }
-
 
 .city-name{
     font-size: 2.5vw;

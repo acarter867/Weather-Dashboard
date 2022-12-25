@@ -31,6 +31,9 @@ function displaySearch(){
     //call api for coordinates using city name
     fetch(queryCity)
     .then(result => {
+        if(result.status != 200){
+            console.log("NEED A MODAL")
+        }
         console.log(result.status);
         return result.json()
     })
@@ -165,11 +168,14 @@ function getDays(data){
     }
     console.log(futureDates.length)
 
+    //search through future dates and find object with highest forecasted temp
     for(let i = 0; i < futureDates.length; i++){
         let highestTemp = findHighest(data, futureDates[i]);
         console.log(highestTemp);
         reformatFutureDate = futureDates[i].split("-");
         reformattedDate = reformatFutureDate[1] + "/" + reformatFutureDate[2] + "/" + reformatFutureDate[0];
+
+        //object for each of the 5 days
         const dayOBJ = {
             date: reformattedDate,
             icon: highestTemp.weather[0].icon,
@@ -177,6 +183,7 @@ function getDays(data){
             wind: "Wind: " + highestTemp.wind.speed,
             humidity: "Humidity: " + highestTemp.main.humidity + "%"
         }
+        //create card with new object data
         dailyForecast(dayOBJ)
     }
 
