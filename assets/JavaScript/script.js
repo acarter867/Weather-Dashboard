@@ -31,29 +31,48 @@ function displaySearch(){
     //call api for coordinates using city name
     fetch(queryCity)
     .then(result => {
-        console.log(result.status);
+        if(result.status != 200){
+            console.log("NEED A MODAL")
+        }
         return result.json()
     })
     .then(data => {
         //pass in coordinates for city and pull weather data
-        let queryCoord = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + data[0].lat + '&lon=' + data[0].lon + '&units=imperial&appid=' + APIKey;
-        fetch(queryCoord)
-        .then(result => {
-            console.log("Status: ", result.status)
-            return result.json();
-        })
-        .then(data => {
-            console.log(data)
-            updateCurrent(data, today)
-            getDays(data);
-        });
-        let searchedCities = localStorage.getItem('history');
-        let parsedSearch = JSON.parse(searchedCities);
-        if(parsedSearch == null || !parsedSearch.includes(city)){
-            addToHistory(autoCaps(city));
+        try{
+            let queryCoord = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + data[0].lat + '&lon=' + data[0].lon + '&units=imperial&appid=' + APIKey;
+            fetch(queryCoord)
+            .then(result => {
+                return result.json();
+            })
+            .then(data => {
+                updateCurrent(data, today)
+                getDays(data);
+            });
+            let searchedCities = localStorage.getItem('history');
+            let parsedSearch = JSON.parse(searchedCities);
+            if(parsedSearch == null || !parsedSearch.includes(city)){
+                addToHistory(autoCaps(city));
+            }
+            $('.txt-search').val('');
+        }catch{
+            openModal();
+            console.log("Need a modal")
         }
-        $('.txt-search').val('');
+
     });
+}
+
+function openModal(){
+    $('.modal').removeClass('hidden');
+    $('.overlay').removeClass('hidden');
+    $('.error-message').text("'" + autoCaps($('.txt-search').val()) + "'" + " is not a searchable city!");
+    $('.close-modal').on('click', closeModal);
+}
+
+function closeModal(){
+    $('.modal').addClass('hidden');
+    $('.overlay').addClass('hidden');
+    $('.txt-search').val('');
 }
 
 //display weather data of current city
@@ -133,7 +152,7 @@ function dailyForecast(obj){
     let dailyTemp = $('<h6></h6>').text(obj.temp);
     day.append(dailyTemp);
 
-    let dailyWind = $('<h6></h6>').text(obj.wind);
+    let dailyWind = $('<h6></h6>').text(obj.wind + " MPH");
     day.append(dailyWind);
 
     let dailyHumidity = $('<h6></h6>').text(obj.humidity);
@@ -151,25 +170,24 @@ function getDays(data){
     let mm = String(day.getMonth() + 1).padStart(2, '0');
     let dd = String(day.getDate()).padStart(2, '0');
     let today = yyyy + "-" + mm + "-" + dd;
-    console.log(today);
 
     let futureDates = [];
     //get list of *next* 5 dates 
     for(let i = 0; i < data.list.length; i++){
         let dayTime = data.list[i].dt_txt.split(" ");
         let day = dayTime[0];
-        console.log(day)
         if(day > today && !futureDates.includes(day)){
             futureDates.push(day);
         }
     }
-    console.log(futureDates.length)
 
+    //search through future dates and find object with highest forecasted temp
     for(let i = 0; i < futureDates.length; i++){
         let highestTemp = findHighest(data, futureDates[i]);
-        console.log(highestTemp);
         reformatFutureDate = futureDates[i].split("-");
         reformattedDate = reformatFutureDate[1] + "/" + reformatFutureDate[2] + "/" + reformatFutureDate[0];
+
+        //object for each of the 5 days
         const dayOBJ = {
             date: reformattedDate,
             icon: highestTemp.weather[0].icon,
@@ -177,10 +195,9 @@ function getDays(data){
             wind: "Wind: " + highestTemp.wind.speed,
             humidity: "Humidity: " + highestTemp.main.humidity + "%"
         }
+        //create card with new object data
         dailyForecast(dayOBJ)
     }
-
-    console.log(futureDates)
 }
 
 //function to find highest temp projection for a given day to display on 5 day forecast
