@@ -23,6 +23,7 @@ main{
     margin-left: 3px;
 }
 
+/* syling for modal display and positioning*/
 .modal{
   display: flex;
   flex-direction: column;
@@ -56,10 +57,12 @@ main{
     font-size: 3vw;
 }
 
+/* hide elements with class hidden*/ 
 .hidden{
     display: none;
 }
 
+/* blur all but modal */ 
 .overlay{
     position: fixed;
     top: 0;

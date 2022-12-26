@@ -1,5 +1,6 @@
 let APIKey = '22c381336de0f996a4083c7ecafd3174';
 
+//JQuery call
 $(function(){
     getSearchHistory();
     let btnSearch = $('.btn-search');
@@ -12,7 +13,7 @@ $(function(){
         btnSearch.css("background-color", "rgb(100, 165, 229)");
     })
     //search city
-    btnSearch.on('click', displaySearch)   
+    btnSearch.on('click', displaySearch);
 });
 
 function displaySearch(){
@@ -23,7 +24,6 @@ function displaySearch(){
     let yyyy = String(today.getFullYear());
     today = '(' + mm + '/' + dd + '/' + yyyy + ')';
 
-
     let city = searchCity();
     
     let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
@@ -31,9 +31,6 @@ function displaySearch(){
     //call api for coordinates using city name
     fetch(queryCity)
     .then(result => {
-        if(result.status != 200){
-            console.log("NEED A MODAL")
-        }
         return result.json()
     })
     .then(data => {
@@ -45,23 +42,24 @@ function displaySearch(){
                 return result.json();
             })
             .then(data => {
-                updateCurrent(data, today)
+                updateCurrent(data, today);
                 getDays(data);
             });
             let searchedCities = localStorage.getItem('history');
             let parsedSearch = JSON.parse(searchedCities);
+
+            //avoid duplicates in search history
             if(parsedSearch == null || !parsedSearch.includes(city)){
                 addToHistory(autoCaps(city));
             }
             $('.txt-search').val('');
         }catch{
             openModal();
-            console.log("Need a modal")
         }
-
     });
 }
 
+//functions to open and close modals if city search returns error
 function openModal(){
     $('.modal').removeClass('hidden');
     $('.overlay').removeClass('hidden');
@@ -147,6 +145,8 @@ function dailyForecast(obj){
 
     let dailyIcon = $('<img></img>');
     dailyIcon.attr('src', 'https://openweathermap.org/img/wn/' + obj.icon + '@2x.png')
+    dailyIcon.attr('alt', 'weather descriptor icon');
+
     day.append(dailyIcon);
 
     let dailyTemp = $('<h6></h6>').text(obj.temp);
@@ -182,7 +182,7 @@ function getDays(data){
     }
 
     //search through future dates and find object with highest forecasted temp
-    for(let i = 0; i < futureDates.length; i++){
+    for(let i = 0; i < 5; i++){
         let highestTemp = findHighest(data, futureDates[i]);
         reformatFutureDate = futureDates[i].split("-");
         reformattedDate = reformatFutureDate[1] + "/" + reformatFutureDate[2] + "/" + reformatFutureDate[0];
