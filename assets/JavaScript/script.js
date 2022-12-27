@@ -41,7 +41,7 @@ function displaySearch(){
             .then(result => {
                 return result.json();
             })
-            .then(data => {
+            .then(data => {``
                 updateCurrent(data, today);
                 getDays(data);
             });
@@ -202,7 +202,7 @@ function getDays(data){
 
 //function to find highest temp projection for a given day to display on 5 day forecast
 function findHighest(data, targetDate){
-    let currentHigh = Number.MIN_VALUE;
+    let currentHigh = Number.NEGATIVE_INFINITY;
     let currentObj;
     for(let i = 0; i < data.list.length; i++){
         let currentData = data.list[i];
