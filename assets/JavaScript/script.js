@@ -3,7 +3,9 @@ let APIKey = '22c381336de0f996a4083c7ecafd3174';
 //JQuery call
 $(function(){
     getSearchHistory();
-    let btnSearch = $('.btn-search');
+    let btnSearch = $('.btn-search'),
+    txtSearch = $('.txt-search');
+
 
     //change color of button on click
     btnSearch.on('mousedown', () => {
@@ -14,6 +16,12 @@ $(function(){
     })
     //search city
     btnSearch.on('click', displaySearch);
+    txtSearch.on('keydown', (e) => {
+        if(e.key === 'Enter'){
+            displaySearch();
+        }
+    })
+
 });
 
 function displaySearch(){
@@ -41,7 +49,8 @@ function displaySearch(){
             .then(result => {
                 return result.json();
             })
-            .then(data => {``
+            .then(data => {
+                console.log(data)
                 updateCurrent(data, today);
                 getDays(data);
             });
@@ -76,13 +85,42 @@ function closeModal(){
 //display weather data of current city
 function updateCurrent(data, date){
     let weatherIcon = $('<img></img>');
+
+    //get weather icon from openweathermap
     weatherIcon.attr('src', 'https://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png')
+    weatherIcon.attr('title', getIconTitle(data.list[0].weather[0].icon));
     $('.city-name').text(data.city.name + " " + date);
     $('.city-name').append(weatherIcon)
 
     $('.current-temp').text("Temp: " + data.list[0].main.temp + " °F");
     $('.current-wind').text("Wind: " + data.list[0].wind.speed + " MPH");
     $('.current-humidity').text("Humidity: " + data.list[0].main.humidity + "%");
+}
+
+//give weather icons better hover title. Default description is boring
+function getIconTitle(icon){
+    let condition = icon.substring(0, 2);
+    console.log(condition + "asdfgjhkazxdcgvbjhmn,sdfgjhksxdcfvbjm,")
+    switch(condition){
+        case '01':
+            return 'Clear Skies!'
+        case '02':
+            return 'Few Clouds!'
+        case '03':
+            return 'Scattered Clouds!'
+        case '04':
+            return 'Broken Clouds!'
+        case '09':
+            return 'Showers!'
+        case '10':
+            return 'Rain!'
+        case '11':
+            return 'Thunderstorms!'
+        case '13': 
+            return 'Snow!'
+        case '50':
+            return 'Misty!'
+    }
 }
 
 //add current search to history and push to local storage. 
@@ -136,7 +174,7 @@ function autoCaps(s){
 }
 
 //set daily card info
-function dailyForecast(obj){
+function dailyForecast(obj, icon){
     let day = $('<div></div>');
     day.attr('class', 'card');
 
@@ -146,6 +184,7 @@ function dailyForecast(obj){
     let dailyIcon = $('<img></img>');
     dailyIcon.attr('src', 'https://openweathermap.org/img/wn/' + obj.icon + '@2x.png')
     dailyIcon.attr('alt', 'weather descriptor icon');
+    dailyIcon.attr('title', icon);
 
     day.append(dailyIcon);
 
@@ -196,7 +235,7 @@ function getDays(data){
             humidity: "Humidity: " + highestTemp.main.humidity + "%"
         }
         //create card with new object data
-        dailyForecast(dayOBJ)
+        dailyForecast(dayOBJ, getIconTitle(highestTemp.weather[0].icon))
     }
 }
 
