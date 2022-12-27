@@ -50,7 +50,6 @@ function displaySearch(){
                 return result.json();
             })
             .then(data => {
-                console.log(data)
                 updateCurrent(data, today);
                 getDays(data);
             });
@@ -100,7 +99,6 @@ function updateCurrent(data, date){
 //give weather icons better hover title. Default description is boring
 function getIconTitle(icon){
     let condition = icon.substring(0, 2);
-    console.log(condition + "asdfgjhkazxdcgvbjhmn,sdfgjhksxdcfvbjm,")
     switch(condition){
         case '01':
             return 'Clear Skies!'
@@ -164,7 +162,6 @@ function getSearchHistory(){
 //function to guarentee all city searches are capitalized correctly & consistently (helps avoid duplicates)
 function autoCaps(s){
     let words = s.split(" ");
-    console.log("Words: " + words);
     let resultString = ""
     for(let i = 0; i < words.length; i++){
         adjustedWord = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
