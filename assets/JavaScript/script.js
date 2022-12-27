@@ -132,7 +132,7 @@ function autoCaps(s){
         adjustedWord = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
         resultString += adjustedWord + ' ';
     }
-    return resultString;
+    return resultString.trim();
 }
 
 //set daily card info
